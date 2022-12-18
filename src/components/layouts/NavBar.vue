@@ -7,11 +7,11 @@
         <a
           role="button"
           class="navbar-burger"
-          :class="{ 'is-active': showMobileNav }"
+          :class="{ 'is-active': isShowMobileNav }"
           aria-label="menu"
           aria-expanded="false"
           data-target="navbarBasicExample"
-          @click.prevent="showMobileNav = !showMobileNav"
+          @click.prevent="showMobileNav"
         >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -22,16 +22,26 @@
       <div
         id="navbarBasicExample"
         class="navbar-menu"
-        :class="{ 'is-active': showMobileNav }"
+        :class="{ 'is-active': isShowMobileNav }"
       >
         <div class="navbar-start"></div>
 
         <div class="navbar-end">
-          <RouterLink to="/" class="navbar-item" active-class="is-active">
+          <RouterLink
+            to="/"
+            class="navbar-item"
+            active-class="is-active"
+            @click="hideMobileNav"
+          >
             Notes
           </RouterLink>
 
-          <RouterLink to="/stats" class="navbar-item" active-class="is-active">
+          <RouterLink
+            to="/stats"
+            class="navbar-item"
+            active-class="is-active"
+            @click="hideMobileNav"
+          >
             Stats
           </RouterLink>
         </div>
@@ -44,7 +54,15 @@
 import { ref } from 'vue';
 
 /* Mobile Nav */
-const showMobileNav = ref(false);
+const isShowMobileNav = ref(false);
+
+const showMobileNav = () => {
+  isShowMobileNav.value = true;
+};
+
+const hideMobileNav = () => {
+  isShowMobileNav.value = false;
+};
 </script>
 
 <style>
