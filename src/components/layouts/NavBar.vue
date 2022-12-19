@@ -5,13 +5,14 @@
         <div class="navbar-item is-size-4 is-family-monospace">Noteballs</div>
 
         <a
+          ref="navbarBurgerRef"
           role="button"
           class="navbar-burger"
           :class="{ 'is-active': isShowMobileNav }"
           aria-label="menu"
           aria-expanded="false"
           data-target="navbarBasicExample"
-          @click.prevent="showMobileNav"
+          @click.prevent="isShowMobileNav ? hideMobileNav() : showMobileNav()"
         >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -20,6 +21,7 @@
       </div>
 
       <div
+        ref="navbarMenuRef"
         id="navbarBasicExample"
         class="navbar-menu"
         :class="{ 'is-active': isShowMobileNav }"
@@ -52,6 +54,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import { onClickOutside } from '@vueuse/core';
 
 /* Mobile Nav */
 const isShowMobileNav = ref(false);
@@ -63,6 +66,18 @@ const showMobileNav = () => {
 const hideMobileNav = () => {
   isShowMobileNav.value = false;
 };
+
+/* Click outside to close */
+const navbarMenuRef = ref(null);
+const navbarBurgerRef = ref(null);
+
+onClickOutside(
+  navbarMenuRef,
+  (event) => {
+    hideMobileNav();
+  },
+  { ignore: [navbarBurgerRef] }
+);
 </script>
 
 <style>
